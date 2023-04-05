@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+   label {
+        margin-top: 2%;
+        margin-bottom: 1%;
+
+    }
+</style>
+{% if messages%}
+{% for message in messages %}
+<div id="message" class="container">
+  <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert" >
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+      {% if message.level  == DEFAULT_MESSAGE_LEVELS.ERROR %}important: {% endif %}
+      {{ message }}
+
+  </div>
+{% endfor %}
+{% endif %}
+ <!-- ...:::: Start Account Dashboard Section:::... -->
+ <div class="account-dashboard" style="margin-top: 60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <!-- Nav tabs -->
+               {% include 'sidebar.html' %}
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9  " style="height: 80%;">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    
+                   
+                        <h4>Edit Profile</h4>
+                        <div class="table_page table-responsive">
+                           <form action="{% url 'edit_profile' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Name</label>
+                                    <div class="form-control">{{ user_form.name }}</div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Phone</label>
+                                    <div class="form-control">{{ user_form.phone }}</div> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address_line_1</label>
+                                <div class="form-control"> {{ profile_form.address_line_1}}</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address_line_2</label>
+                                <div class="form-control">{{ profile_form.address_line_2}}
+                                </div></div> 
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>City</label>
+                                    <div class="form-control"> {{ profile_form.city}}</div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>State</label>
+                                    <div class="form-control"> {{ profile_form.state}}</div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Country</label>
+                                    <div class="form-control">{{ profile_form.country}}</div> 
+                                </div>
+                            </div>
+                            <input type="submit" value="Save" class="btn btn-golden" style="width: 10%;margin-top: 5%;">
+                           </form>
+                        </div>
+                   
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Account Dashboard Section:::... -->
+
+
+
+
+{% endblock %}

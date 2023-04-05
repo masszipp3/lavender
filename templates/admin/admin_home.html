@@ -1,0 +1,175 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+{% load static %}
+{% if messages%}
+{% for message in messages %}
+<div id="message" class="container">
+  <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert" >
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+      {% if message.level  == DEFAULT_MESSAGE_LEVELS.ERROR %}important: {% endif %}
+      {{ message }}
+
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+<div class="ec-content-wrapper">
+    <div class="content">
+        <!-- Top Statistics -->
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+                <div class="card card-mini dash-card card-1">
+                    <div class="card-body">
+                        <h2 class="mb-1">{{total_users}}</h2>
+                        <p><a href="{% url 'admin_userlist' %}"> Total Users</a></p>
+                        <span class="mdi mdi-account-arrow-left"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+                <div class="card card-mini dash-card card-2">
+                    <div class="card-body">
+                        <h2 class="mb-1">{{ total_categories }}</h2>
+                        <p><a href="{% url 'admin_category' %}">Total Categories</a> </p>
+                        <span class="mdi mdi-account-clock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+                <div class="card card-mini dash-card card-3">
+                    <div class="card-body">
+                        <h2 class="mb-1">{{total_orders}}</h2>
+                        <p><a href="{% url 'admin_orders' %}"> Total Orders</a></p>
+                        <span class="mdi mdi-package-variant"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+                <div class="card card-mini dash-card card-4">
+                    <div class="card-body">
+                        <h2 class="mb-1">{{ total_products }}</h2>
+                        <p><a href="{% url 'adminproduct' %}"> Total Products</a></p>
+                        <span class="mdi mdi-currency-usd"></span>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+        <div style="text-align: center;"> 
+            <h1 class="text-danger h2">
+                <span class="text-dark">Total Payment :</span> ₹{{revenue}}
+              </h1>
+
+        </div>
+      
+
+        <div class="row">
+            <div class="col-xl-6 col-md-12 p-b-15">
+
+                <div class="w-75"> 
+                    <canvas id="myChart" width="300" height="300"></canvas>
+                  </div>
+                <!-- Sales Graph -->
+   
+            </div> 
+            <div class="col-xl-6 col-12 p-b-15">
+                <!-- Top Sell Table -->
+                <div class="w-75"> 
+                    <canvas id="myChart2" width="300" height="300"></canvas>
+                  </div>
+          
+            </div>
+           
+
+      
+          
+          
+        </div>
+
+       
+
+        <!-- Graphs -->
+
+      
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Order', 'Product', 'User', 'Category'],
+      datasets: [{
+        label: '',
+        data: ['{{total_orders}}', '{{total_products}}', '{{total_users}}', '{{total_categories}}'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+   
+
+  <script>
+    const cty = document.getElementById('myChart2').getContext('2d');
+  
+    var myChart2= new Chart(cty, {
+      type:'bar',
+      data: {
+        labels: ['Accepted', 'Completed', 'Returned', 'Cancelled'],
+        datasets: [{
+          label: 'ORDERS',
+          data: ['{{accepted}}', '{{completed}}', '{{returned}}', '{{cancelled}}'],
+          backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+           
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            
+            ],
+            borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {      yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+      }
+    });
+  </script> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <!-- End Content Wrapper -->
+        {% endblock %}

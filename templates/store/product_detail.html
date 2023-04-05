@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div id="message" class="container">
+  <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert" >
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+      {% if message.level  == DEFAULT_MESSAGE_LEVELS.ERROR %}error: {% endif %}
+      {{ message }}
+
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<style>
+    /* HIDING RADIO BUTTON */
+.rate > label{
+    float: right;
+}
+.rate > input{
+    display: none;
+}
+.rate{
+    display: inline-block;
+    border: 0;
+}
+/* PRINTING START */
+ .rate > label::before{
+    display: inline-block;
+    font-size: 1.1rem;
+    font-family: FontAwesome;
+    content: "\f005";
+    margin: 0;
+    padding: 0.3rem 0.2rem;
+    cursor: pointer;
+
+ }
+
+ /* HALF STAR */
+ .rate .half::before{
+    content: "\f089";
+    position: absolute;
+    padding-right:0 ;
+
+
+ }
+ /* CLICK AND HOVER */
+ input:checked ~ label,label:hover ~ label{
+    color: #ffb503;
+ }
+ /*  HOVER HIGHLIGHT  */
+
+ input :checked + label:hover,input:checked ~ label:hover, input :checked ~ label:hover ~ label,
+ label:hover ~ input:checked ~label{
+    color: #cc9000; 
+ }   
+ .rating-star i{
+    color:  #ffb503 !important;
+ }
+
+</style>
+
+{% load static %}
+ <!-- Start Product Details Section -->
+ <div class="product-details-section" style="margin-top: 50px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-6">
+                <div class="product-details-gallery-area" data-aos="fade-up" data-aos-delay="0">
+                    <!-- Start Large Image -->
+                    <div class="product-large-image product-large-image-horaizontal swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                <img src="{{ single_product.image.url }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Large Image -->
+                    <!-- Start Thumbnail Image -->
+                    <div
+                        class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
+                        <div class="swiper-wrapper">
+                            
+                        </div>
+                        <!-- Add Arrows -->
+                        <!-- <div class="gallery-thumb-arrow swiper-button-next"></div>
+                        <div class="gallery-thumb-arrow swiper-button-prev"></div> -->
+                    </div>
+                    <!-- End Thumbnail Image -->
+                </div>
+            </div>
+            <div class="col-xl-7 col-lg-6">
+                <div class="product-details-content-area product-details--golden" data-aos="fade-up"
+                    data-aos-delay="200">
+                    <!-- Start  Product Details Text Area-->
+                    <div class="product-details-text">
+                        <h4 class="title">{{ single_product.product_name }}</h4>
+                        {% if reviews %}
+                        <div class="d-flex align-items-center">
+                            <div class="rating-star">
+                                <span>
+                                   <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1  %}-half-o {% endif %}" aria-hidden="true"></i>
+                                   <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2  %}-half-o {% endif %}" aria-hidden="true"></i>
+                                   <i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3  %}-half-o {% endif %}" aria-hidden="true"></i>
+                                   <i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4  %}-half-o {% endif %}" aria-hidden="true"></i>
+                                   <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5  %}-half-o {% endif %}" aria-hidden="true"></i>
+
+                                </span>
+                                <span>    ({{ single_product.countReview}})</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="price">Rs.{{ single_product.price }}</div>
+                        <p>{{ single_product.description }}</p>
+                    </div> <!-- End  Product Details Text Area-->
+                    <!-- Start Product Variable Area -->
+                    <div class="product-details-variable">
+                        
+                        <!-- Product Variable Single Item -->
+              
+                        <!-- Product Variable Single Item -->
+                        <div class="d-flex align-items-center ">
+                            <div class="product-add-to-cart-btn">
+                                {% if single_product.stock <= 0 %}
+                                <h3><b> Out of stock </b></h3>
+                                {% else %}
+                                <a href="{% url 'cart' %}" class="btn btn-block btn-lg btn-black-default-hover">View Cart</a>
+                                <a href="{% url 'add_cart' single_product.id  %}" class="btn btn-block btn-lg btn-black-default-hover">+ Add To Cart</a>
+                                {% endif %}
+                            </div>
+                           
+                            </div>
+
+          
+                        </div>
+                        <!-- Start  Product Details Meta  Area-->
+                         <!-- End  Product Details Meta Area-->
+                    </div> <!-- End Product Variable Area -->
+
+
+               
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Product Details Section -->
+
+<!-- Start Product Content Tab Section -->
+<div class="product-details-content-tab-section section-top-gap-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="product-details-content-tab-wrapper" data-aos="fade-up" data-aos-delay="0">
+
+                    <!-- Start Product Details Tab Button -->
+                    <ul class="nav tablist product-details-content-tab-btn d-flex justify-content-center">
+                        <li><a class="nav-link active" data-bs-toggle="tab" href="#description">
+                                Description
+                            </a></li>
+                        
+                            <li><a class="nav-link" data-bs-toggle="tab" href="#review">
+                                Reviews
+                            </a></li>
+                    </ul> <!-- End Product Details Tab Button -->
+
+                    <!-- Start Product Details Tab Content -->
+                    <div class="product-details-content-tab">
+                        <div class="tab-content">
+                            <!-- Start Product Details Tab Content Singel -->
+                            <div class="tab-pane active show" id="description">
+                                <div class="single-tab-content-item">
+                                    <p>{{ single_product.description }}</p>
+                                </div>
+                            </div> <!-- End Product Details Tab Content Singel -->
+                            <!-- Start Product Details Tab Content Singel -->
+                            <div class="tab-pane" id="specification">
+                                <div class="single-tab-content-item">
+                                    
+                                    <br>
+                                        
+                                </div>
+                            </div> <!-- End Product Details Tab Content Singel -->
+
+ <!-- Start Product Details Tab Content Singel -->
+ <div class="tab-pane" id="review">
+    <div class="single-tab-content-item">
+        <div class="review-form">
+                <form action="{% url 'submit_review' single_product.id %}" method="POST">
+                    {% csrf_token %}
+                    <h5> Write your review</h5>
+                    <div>
+                        <!-- stars -->
+                        <label >How Do You Rate This Product?</label>
+                        <br>
+                        <div class="rate" >
+                            <input type="radio" name="rating" id="rating10" value="5"   required/> <label for="rating10" title="5"></label>
+                            <input type="radio" name="rating" id="rating9" value="4.5"  required/> <label for="rating9" title="4.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating8" value="4" required/> <label for="rating8" title="4"></label>
+                            <input type="radio" name="rating" id="rating7" value="3.5"  required/> <label for="rating7" title="3.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating6" value="3"  required/> <label for="rating6" title="3"></label>
+                            <input type="radio" name="rating" id="rating5" value="2.5"  required/> <label for="rating5" title="2.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating4" value="2"  required/> <label for="rating4" title="2"></label>
+                            <input type="radio" name="rating" id="rating3" value="1.5" required/> <label for="rating3" title="1.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating2" value="1" required/> <label for="rating2" title="1"></label>
+                            <input type="radio" name="rating" id="rating1" value="0.5"  required/> <label for="rating1" title="0.5" class="half"></label>
+                        </div>
+                         <br>
+                       <h5>Review Title:</h5> 
+                        <input type="text" class="form-control" name="subject" required>
+                        <br>
+                        <h5>Review:</h5>
+                        <textarea name="review"  rows="4" class="form-control"></textarea required>
+                        <br>
+                        {% if user.is_authenticated %}
+                        {% if orderproduct %}
+
+                        <input type="submit" value="Submit Review" class="btn btn-md btn-golden">
+                        {% else %}
+                        <p class="text-danger">*You must purchase this product to post a review </p>
+
+                        {% endif %}
+                        {% else %}
+                        <p>You must be logged in to write review <span><a href="{% url 'signin' %}">Login</a></span></p>
+                        {% endif %}
+                    </div>
+                </form>
+
+           
+
+          
+        </div>
+        <!-- Start - Review Comment -->
+        {% if reviews %}
+        <ul class="comment mt-5">
+            <h4><strong>Customer Reviews</strong> </h4>
+            <!-- Start - Review Comment list-->
+            {% for review in reviews %}
+            <li class="comment-list">
+                <div class="comment-wrapper">
+                    
+                  
+                   
+                    <div class="comment-content">
+                        <div class="comment-content-top mb-1">
+                            <div class="comment-content-left">
+                                <h6 class="comment-name">{{ review.user.name }}</h6>
+                                <ul class="review-star">
+                                    <div class="rating-star">
+                                        <span>
+                                           <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
+                                           <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
+                                           <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
+                                           <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
+                                           <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </ul>
+                            </div>
+                            
+                        </div>
+                        <div class="para-content mt-0">
+                            <h5>{{ review.subject }}</h5>
+                        </div>
+
+                        <div class="para-content">
+                            <p>{{ review.review }}</p>
+                        </div>
+                    </div>
+                   
+                </div>
+            
+            </li> <!-- End - Review Comment list-->
+            {% endfor %}
+        </ul> <!-- End - Review Comment -->
+        {% endif %}
+       
+    </div>
+</div> <!-- End Product Details Tab Content Singel -->
+
+
+
+                            <!-- Start Product Details Tab Content Singel -->
+                            <!-- End Product Details Tab Content Singel -->
+                        </div>
+                    </div> <!-- End Product Details Tab Content -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Product Content Tab Section -->
+
+<!-- Start Product Default Slider Section -->
+
+<!-- End Product Default Slider Section -->
+ 
+
+
+
+{% endblock %}

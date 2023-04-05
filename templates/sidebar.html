@@ -1,0 +1,25 @@
+<div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
+    <ul role="tablist" class="nav flex-column dashboard-list" id="test">
+        <li><a href="{% url 'dashboard' %}"  
+                class="nav-link btn btn-block btn-md btn-black-default-hover {% if 'dashboard' in request.path %}active{% endif %}">Dashboard</a>
+        </li>
+        <li> <a href="{% url 'my_orders' %}" 
+                class="nav-link btn btn-block btn-md btn-black-default-hover {% if 'my_orders' in request.path %}active{% endif %}">My Orders</a></li>
+        <li><a href="{% url 'my_address' %}" 
+                class="nav-link btn btn-block btn-md btn-black-default-hover {% if 'my_address' in request.path %}active{% endif %}" >My Addresses</a></li>
+        <li><a href="{% url 'edit_profile' %}" 
+                class="nav-link btn btn-block btn-md btn-black-default-hover {% if 'edit_profile' in request.path %}active{% endif %}">Edit Profile</a></li>
+        <li><a href="{% url 'change_password' %}" 
+                class="nav-link btn btn-block btn-md btn-black-default-hover {% if 'change_password' in request.path %}active{% endif %}">Change Password</a>
+        </li>
+        <li><a href="{% url 'signout' %}"
+                class="nav-link btn btn-block btn-md btn-black-default-hover {% if 'signout' in request.path %}active{% endif %}">logout</a></li>
+    </ul>
+</div>
+<style>
+#test li a{
+        background-color: #83528c !important;;
+
+}
+
+</style>

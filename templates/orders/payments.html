@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+  <!-- ...:::: Start Cart Section:::... -->
+  <div class="cart-section" style="margin-top: 50px;">
+    <!-- Start Cart Table -->
+    <div class="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="container">
+           
+
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="table_page table-responsive">
+                            <div class="card">
+                                <h4 class="card-header"><b>Billing Address</b> </h4>
+                                <div class="card-body">
+                                  <p class="card-text mb-0">{{ order.name }}</p>
+                                  <p class="card-text mb-0">{{ order.full_address }}</p>
+                                  <p class="card-text mb-0">{{ order.city }},{{ order.state }}</p>
+                                  <p class="card-text mb-0">{{ order.country }}</p>
+                                  <p class="card-text mb-0">{{ order.email }}</p>
+
+                                  <p class="card-text mb-0"> Ph.{{ order.phone }}</p>
+                                </div>
+                              </div>
+                              <div class="card">
+                                <h4 class="card-header"><b>Payment Method</b> </h4>
+                                <div class="card-body">
+                                    <!-- <span class="circle-icon"></span> -->
+                      <span><i class="fa-regular fa-circle"></i></span>
+                      <span style="color: black;size: 2%;"><strong>Razorpay</strong></span>
+                                    
+
+                                </div>
+                              </div>
+                              <div class="card">
+                                <h4 class="card-header"><b>Review Products </b> </h4>
+                                <div class="card-body">
+                                    <table>
+                                        <!-- Start Cart Table Head -->
+                                        <thead>
+                                            <tr>
+                                               
+                                                <th class="product_thumb">Image</th>
+                                                <th class="product_name">Product</th>
+                                                <th class="product_quantity">Quantity</th>
+                                                <th class="product_total">Total</th>
+                                            </tr>
+                                        </thead> <!-- End Cart Table Head -->
+                                        <tbody>
+                                            {% for cart_item in cart_items %}
+                                            <!-- Start Cart Single Item-->
+                                            <tr>
+                                                
+                                                <td class="product_thumb"><a href="{{ cart_item.product.get_url }}"><img
+                                                            src="{{ cart_item.product.image.url }}"
+                                                            alt=""></a></td>
+                                                <td class="product_name"><a href="{{ cart_item.product.get_url }}">{{ cart_item.product.product_name }}</a></td>
+                                                
+                                                <td class="product_quantity">
+                                                    <div class="col">
+                                                        <div class="input-group input-spinner">
+                                                           
+                                                            <input value="{{ cart_item.quantity }}" type="text" readonly>
+                                                            
+        
+                                                        </div>
+                                                    </div>
+                                                    
+        
+                                                    </td>
+        
+        
+                                                <td class="product_total">Rs.{{ cart_item.sub_total }}</td>
+                                            </tr> <!-- End Cart Single Item-->
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>                                </div>
+                              </div>
+                              
+                        </div>
+                        
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div> <!-- End Cart Table -->
+
+    <!-- Start Coupon Start -->
+    <div class="coupon_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                   
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
+                        <h3>Payment Details</h3>
+                        <div class="coupon_inner">
+                            <div class="cart_subtotal">
+                                <p>Subtotal</p>
+                                <p class="cart_amount">{{ total }}</p>
+                            </div>
+                            <div class="cart_subtotal ">
+                                <p>Tax</p>
+                                <p class="cart_amount">Rs.{{ tax }}</p>
+                            </div>
+                            
+                            {% if coupon_discount %}
+                            <li>  <div class="cart_subtotal d-flex justify-content-between">
+                                <a class="text-warning">Discount :</a>
+                                  <span class="cart_amount text-warning">-₹{{coupon_discount}}</span>
+                             </div></li>
+                             {% endif %} 
+                            <div class="cart_subtotal">
+                                <p>Total</p>
+                                <p class="cart_amount">Rs.{{ grand_total }}</p>
+                            </div>
+                            <div class="checkout_btn ">
+
+                                <!-- <a class="btn btn-md btn-golden" id="rzp-button1" >Make Payment</a> -->
+                                <button type="type"class="btn btn-md btn-golden" id="rzp-button1"  >Make Payment</button>
+                            </div>
+                           
+                            <!-- razorpay content -->
+                                    <!-- RazorPay Content -->
+   
+
+<!-- RazorPay Section End -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Coupon Start -->
+</div>
+  
+ <!-- ...:::: End Cart Section:::... -->
+    <form action="{% url 'payment_status' %}" method="POST">
+        {% csrf_token %}
+ <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+ <script>
+
+ var options = {
+     "key": "{{ razorpay_merchant_key }}", // Enter the Key ID generated from the Dashboard
+     "amount": "{{ payment.amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+     "currency": "INR",
+     "name": "Lavender Haze",
+     "description": "Test Transaction",
+     "image": "{% static 'images/logo/logo_black.png' %}",
+     "order_id": "{{ payment.id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+     "callback_url": "{% url 'payment_status' %}",
+     "prefill": {
+         "name": "{{ order.name }}",
+         "email": "{{ user.email }}",
+         "contact": "{{ user.phone }}"
+     },
+     "notes": {
+         "address": "Razorpay Corporate Office"
+     },
+     "theme": {
+         "color": "#3399cc"
+     }
+ };
+ var rzp1 = new Razorpay(options);
+ document.getElementById('rzp-button1').onclick = function(e){
+     rzp1.open();
+     e.preventDefault();
+ }
+ </script>
+ </form>
+    {% endblock %}
+
+  

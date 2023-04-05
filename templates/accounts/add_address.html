@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+ {% load static %} 
+ {% block content%}
+ <main class="col-md-9">
+      <article class="card">
+      <header class="card-header">
+        <strong class="d-inline-block">Add new Address</strong>
+      
+      </header>
+      <div class="card-body">
+        <div class="row"> 
+        <div class="col-md-12">
+                 <form action="{% url 'add_address' %}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-row">
+                      <div class="form-group col-md-6">
+                          <label >First Name</label>
+                         {{form.name}}
+                      </div>
+                    
+  
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label >Email</label>
+                        {% comment %} {{form.email}} {% endcomment %}
+                        <input type="email" name="email" maxlength="50" class="form-control" onkeyup="validateAddAddressEmail()" id="id_email">
+                         	<span id="email-error"class='change'></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                          <label >Phone Number</label>
+                          {% comment %} {{form.phone}} {% endcomment %}
+                          <input type="text" name="phone" maxlength="15" class="form-control" onkeyup="validateAddAddressMobilenumber()" id="id_phone">
+                           <span id="mobilenumber-error"class='change'></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label >Address Line 1</label>
+                      {{form.address_line_1}}
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label >Address Line 2</label>
+                      {{form.address_line_2}}
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label >City</label>
+                      {{form.city}}
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label >Country</label>
+                      {{form.country}}
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label >State</label>
+                      {{form.state}}
+                    </div>
+                         
+                  </div>
+                  <input type="submit" name="" id="" value="Save" onclick="return validateAddAddresForm()" class="btn btn-dark">
+                   <span  id="submit-error" class="mt-2"></span>
+  
+                 </form>
+         
+        </div>
+        </div> <!-- row.// -->
+      </div> <!-- card-body .// -->
+  
+      
+       <!-- table-responsive .end// -->
+      </article> <!-- order-group.// --> 
+    </main>
+
+ {% endblock %}

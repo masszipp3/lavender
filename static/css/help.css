@@ -1,0 +1,9 @@
+/* HIDE RADIO BUTTONS */
+
+.rate > input{
+    display: none  !important;
+}
+/* .rate input[type="radio"] {
+    display: none !important;
+  }
+   */

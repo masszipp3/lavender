@@ -1,0 +1,363 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Lavender Haze </title>
+
+    <!-- ::::::::::::::Favicon icon::::::::::::::-->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/png">
+
+    <!-- ::::::::::::::All CSS Files here :::::::::::::: -->
+    <!-- Vendor CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/ionicons.css">
+    <link rel="stylesheet" href="assets/css/vendor/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css"> -->
+
+    <!-- Plugin CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="assets/css/plugins/venobox.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.lineProgressbar.css">
+    <link rel="stylesheet" href="assets/css/plugins/aos.min.css"> -->
+
+    <!-- Main CSS -->
+    <!-- <link rel="stylesheet" href="assets/sass/style.css"> -->
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <link rel="stylesheet" href="{% static 'css/vendor/vendor.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plugins/plugins.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+
+</head>
+
+<body>
+    {% if messages%}
+    {% for message in messages %}
+    <div id="message" class="container">
+      <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert" >
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+          {% if message.level  == DEFAULT_MESSAGE_LEVELS.ERROR %}important: {% endif %}
+          {{ message }}
+  
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+    <!-- Start Header Area -->
+    <header class="header-section d-none d-xl-block">
+        <div class="header-wrapper"  style="background-color: #EAEBFF !important;">
+            <div  style="background-color: #EAEBFF !important;" class="header-bottom header-bottom-color section-fluid sticky-color--golden">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 d-flex align-items-center  ">
+                            <!-- Start Header Logo -->
+                            <div class="header-logo">
+                                <div class="logo">
+                                    <a href="{% url 'ghome' %}"><img src="{% static 'images/logo/logo_black.png' %}" alt=""></a>
+                                </div>
+                            </div>
+
+                            <span style="margin-left:30px ;margin-top: 30px;color: black;"><p style="font-size:30px;">Welcome to LAVENDER HAZE </p> </H4></span>
+                            <!-- End Header Logo -->
+
+                            <!-- Start Header Main Menu -->
+                           
+                            <!-- End Header Main Menu Start -->
+
+                            <!-- Start Header Action Link -->
+                            
+                            <!-- End Header Action Link -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Start Header Area -->
+
+    <!-- Start Mobile Header -->
+    <div class="mobile-header mobile-header-bg-color--golden section-fluid d-lg-block d-xl-none">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <!-- Start Mobile Left Side -->
+                    <div class="mobile-header-left" style="display: flex;">
+                        <ul class="mobile-menu-logo">
+                            <li>
+                                
+                                    <div class="logo" style="height: 50px;width: 50px;">
+                                        <a href="{% url 'ghome' %}"><img src="{% static 'images/logo/logo_black.png' %}" alt="">
+                                        </a>
+                                    </div>
+                                
+                            </li>
+                            
+                        </ul>
+                        <span style="margin-top: 25px;size: 70px;margin-left: 45px;"><p>WELCOME TO LAVENDER HAZE</p></span>
+
+                    </div>
+                    <!-- End Mobile Left Side -->
+
+                    <!-- Start Mobile Right Side -->
+                 
+                    <!-- End Mobile Right Side -->
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+    <!-- End Mobile Header -->
+    {% if request.GET.command == 'verification' %}
+    <div class="container mx-auto alert alert-info text-center" role="alert" style="max-width: 1024px;margin-top: 100px;">
+    Thank you for registering with us.we have sent you an email address [{{request.GET.email}}] 
+    <br><br>
+    Already verified? <a href="{% url 'signin' %}">SignIn</a>
+    </div>
+    {% else %}
+   
+    <!-- ...:::: Start Customer Login Section :::... -->
+    <div class="customer-login" style="margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <!--login area start-->
+                <div class="col-lg-6 col-md-6">
+                    <div class="account_form" data-aos="fade-up" data-aos-delay="0">
+                        <h3>login</h3>
+                        <form action="{% url 'signin' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form3Example1cg" name="email" class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Example1cg">Your Email</label>
+                              </div>
+                              <div class="form-outline mb-4">
+                                <input type="password" id="form3Example4cg" name="password"  class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Example4cg">Password</label>
+                              </div>
+                              <p><a href="{% url 'forgotPassword' %}"><u> Forgot Password</u></a></p>
+
+                  
+
+                            <!-- <div class="login_submit">
+                                <button class="btn btn-md btn-black-default-hover mb-4" type="submit">login</button>
+                               
+                                <span><a href="#">Forgot password?</a></span>
+                                <p class="text-muted mt-5 mb-0">Don't have an account?<a href="{% url 'signup' %}"
+                                    class="fw-bold text-body"><u> SignUp Here</u></a></p>
+
+                            </div> -->
+                            <div class="d-flex justify-content-center">
+
+                                <button type="submit" style="background-color: #E29AD2;color: #ffff;" onmouseover="this.style.backgroundColor='#F5E5F2';" onmouseout="this.style.backgroundColor='#E29AD2';" class="btn btn-md btn-black-default-hover mb-4 text-body">Sign in</button>
+
+                              </div>
+              
+                              <p class="text-center text-muted mt-5 mb-0">Don't have an account?<a href="{% url 'signup' %}"
+                                  class="fw-bold text-body"><u> SignUp Here</u></a></p>
+
+
+
+                        </form>
+                    </div>
+                </div>
+                <!--login area start-->
+
+                <!--register area start-->
+                <!-- <div class="col-lg-6 col-md-6" >
+                    <div class="account_form register" data-aos="fade-up" data-aos-delay="200">
+                        <h3>SignUp</h3>
+                        <form action="#" method="post" >
+                            {% csrf_token %}
+                            <div class="default-form-box">
+                                <label>Name <span>*</span></label>
+                                <input type="text">
+                            </div>
+                            <div class="default-form-box">
+                                <label>Email address <span>*</span></label>
+                                <input type="email">
+                            </div>
+                            <div class="default-form-box">
+                                <label>Phone number <span>*</span></label>
+                                <input type="text">
+                            </div>
+                            <div class="default-form-box">
+                                <label>Passwords <span>*</span></label>
+                                <input type="password">
+                            </div>
+                            <div class="login_submit">
+                                <button class="btn btn-md btn-black-default-hover" type="submit">Signup</button>
+                                <p style="margin-top: 10px;">Have already an account? <a href="{% url 'signin' %}"
+                                    class="fw-bold text-body"><u> Login here</u></a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div> -->
+                <!--register area end-->
+            </div>
+        </div>
+    </div> <!-- ...:::: End Customer Login Section :::... -->
+{% endif %}
+    <!-- Start Footer Section -->
+    <footer style="background-color: #fef5fe;" class="footer-section footer-bg section-top-gap-100">
+        <div class="footer-wrapper">
+            <!-- Start Footer Top -->
+            <div class="service-promo-section section-top-gap-50">
+                <div class="service-wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Start Service Promo Single Item -->
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="0">
+                                    <div class="image">
+                                        <img style="color: #ffff;" src="{% static 'images/icons/service-promo-1.png' %}" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <h6 class="title">FREE SHIPPING</h6>
+                                        <p>Get 10% cash back, free shipping, free returns, and more at 1000+ top retailers!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Service Promo Single Item -->
+                            <!-- Start Service Promo Single Item -->
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="image">
+                                        <img src="{% static 'images/icons/service-promo-2.png' %}" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <h6 class="title">30 DAYS MONEY BACK</h6>
+                                        <p>100% satisfaction guaranteed, or get your money back within 30 days!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Service Promo Single Item -->
+                            <!-- Start Service Promo Single Item -->
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="400">
+                                    <div class="image">
+                                        <img src="{% static 'images/icons/service-promo-3.png' %}" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <h6 class="title">SAFE PAYMENT</h6>
+                                        <p>Pay with the world’s most popular and secure payment methods.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Service Promo Single Item -->
+                            <!-- Start Service Promo Single Item -->
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="600">
+                                    <div class="image">
+                                        <img src="{% static 'images/icons/service-promo-4.png' %}" alt="">
+                                    </div>
+                                    <div class="content">
+                                        <h6 class="title">LOYALTY CUSTOMER</h6>
+                                        <p>Card for the other 30% of their purchases at a rate of 1% cash back.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Service Promo Single Item -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Footer Top -->
+
+            <!-- Start Footer Center -->
+            
+            <!-- Start Footer Center -->
+
+            <!-- Start Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container">
+                    <div
+                        class="row justify-content-between align-items-center align-items-center flex-column flex-md-row mb-n6">
+                        <div class="col-auto mb-6">
+                            <div class="footer-copyright">
+                                <p class="copyright-text">&copy; 2023  Made with <i
+                                        class="fa fa-heart text-danger"></i> by Raheema
+                                        </p>
+
+                            </div>
+                        </div>
+                        <div class="col-auto mb-6">
+                            <div class="footer-payment">
+                                <div class="image">
+                                    <img src="assets/images/company-logo/payment.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Start Footer Bottom -->
+        </div>
+    </footer>
+    <!-- End Footer Section -->
+
+    <!-- material-scrolltop button -->
+    <button class="material-scrolltop" type="button"></button>
+
+   
+    <!-- Start Modal Quickview cart -->
+                                    <!-- Start Large Image -->
+                                   
+                                    <!-- End Large Image -->
+                                    <!-- Start Thumbnail Image -->
+                                   
+                                        <!-- Add Arrows -->
+                                        
+                                
+                                    <!-- Start  Product Details Text Area-->
+                                     <!-- End  Product Details Text Area-->
+                                    <!-- Start Product Variable Area -->
+                                        <!-- Product Variable Single Item -->
+                                                       
+                                        <!-- Product Variable Single Item -->
+                                        <!-- End Product Variable Area -->
+                                    
+                                    <!-- Start  Product Details Social Area-->
+                                   <!-- End  Product Details Social Area-->
+                                 <!-- End Modal Quickview cart -->
+
+    <!-- ::::::::::::::All JS Files here :::::::::::::: -->
+    <!-- Global Vendor, plugins JS -->
+    <!-- <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
+    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>  -->
+
+    <!--Plugins JS-->
+    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
+    <script src="assets/js/plugins/material-scrolltop.js"></script>
+    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="assets/js/plugins/jquery.zoom.min.js"></script>
+    <script src="assets/js/plugins/venobox.min.js"></script>
+    <script src="assets/js/plugins/jquery.waypoints.js"></script>
+    <script src="assets/js/plugins/jquery.lineProgressbar.js"></script>
+    <script src="assets/js/plugins/aos.min.js"></script>
+    <script src="assets/js/plugins/jquery.instagramFeed.js"></script>
+    <script src="assets/js/plugins/ajax-mail.js"></script> -->
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <script src="{% static 'js/vendor/vendor.min.js' %}"></script>
+    <script src="{% static 'js/plugins/plugins.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+
+</html>

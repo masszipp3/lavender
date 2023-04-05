@@ -1,0 +1,57 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+	<div class="content">
+		<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+			<div>
+				<h1>Add Product</h1>
+				<p class="breadcrumbs"><span><a href="index.html">Home</a></span>
+					<span><i class="mdi mdi-chevron-right"></i></span>Product
+				</p>
+			</div>
+			<div>
+				<a href="{% url 'adminproduct' %}" class="btn btn-primary"> View All
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="card card-default">
+					<div class="card-header card-header-border-bottom">
+						<h2>Add Product</h2>
+					</div>
+					<div class="card-body">
+						<div class="row ec-vendor-uploads">
+
+							<div class="col-lg-8">
+								<div class="ec-vendor-upload-detail">
+									<form action="" method="POST" class="row g-3" enctype="multipart/form-data">
+										{% csrf_token %}
+										<br>
+										{{ form.as_p }}
+										<br>
+										<div class="col-md-12">
+											<button type="submit" class="btn btn-primary">Add product</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+<script>
+    document.getElementById("id_product_name").onkeyup=function(){
+        document.getElementById("id_slug").value=document.getElementById("id_product_name").value.toLowerCase().replaceAll(" ","-");
+      }
+</script>
+{% endblock %}

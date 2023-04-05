@@ -1,0 +1,165 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+{% load static %}
+
+
+<div class="page-inner">
+
+    <!-- PAGE MAIN WRAPPER
+                ================================================== -->
+    <div id="main-wrapper">
+
+        <!-- row -->
+        <div class="row align-items-center grid-margin">
+            <div class="col-12">
+                <div class="card card-white">
+                    <div class="card-body row align-items-center">
+                        <div class="col-12 col-sm">
+                            <h4 class="mb-4 mb-sm-0 text-center text-sm-start">Coupon</h4>
+                        </div>
+                        <form class="d-flex" method="POST" style="width: 50%;height: fit-content;margin-right: 5px;" >
+                            {% csrf_token %}
+                            <input
+                              name="search"
+                              class="form-control me-2"
+                              type="search"
+                              placeholder="Search"
+                              aria-label="Search"
+                              style="width: 100%;"
+                            />
+                            <button class="btn btn-outline-success" type="submit" style="margin-left: 2%;">
+                              Search
+                
+                            </button>
+                          </form>
+                    </div>
+                   
+                </div>
+                <br>
+
+                <a href="{% url 'addCoupon' %}" class="btn btn-primary btn-md">Create Coupon</a>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <!-- row -->
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <div class="card card-white">
+                    <div class="card-body slimscroll">
+                        <div class="table-responsive">
+                            {% if coupons %}
+                            <table class="table">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Coupon code</th>
+                                        <th scope="col">Discount</th>
+                                        <th scope="col">Min price</th>
+                                        <th scope="col">Expiry Date</th>
+                                        <th scope="col">available</th>
+                                        <th scope="col">action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for i in coupons %}
+                                    <tr>
+
+                                        <th scope="row">{{i.id}}</th>
+                                        <td>{{i.code}}</td>
+                                        <td>{{i.discount}}%</td>
+                                        <td>₹{{i.min_value}}</td>
+                                        <td>{{i.valid_at}}</td>
+                                        <td>{{i.active}}</td>
+
+                                        <td>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#a{{i.id}}">Delete</button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="a{{i.id}}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Alert
+                                                            </h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Do You Want To Delete This Coupon ?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <a href="{% url 'deleteCoupon' i.id %}"><button
+                                                                    type="button"
+                                                                    class="btn btn-primary">Delete</button></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+                                            <a href="{% url 'updateCoupon' i.id%}"><button type="button"
+                                                    class="btn btn-primary">
+                                                    Update
+                                                </button></a>
+
+
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <h4 class="text-center">No records</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="mb-3 mt-3" aria-label="page navigation sample">
+                {% if coupons.has_other_pages %}
+                  <ul class="pagination">
+                  {% if coupons.has_previous %}
+                    <li class="page-item"><a class="page-link "href="?page={{coupons.previous_page_number}}">Previous</a></li>
+      
+                    {% endif %}
+                    {% for i in coupons.paginator.page_range %}
+                    {% if coupons.number == i %}
+                     <li class="page-item active"><a class="page-link "href="#">{{i}}</a></li>
+                     {% else %}
+                     <li class="page-item"><a class="page-link "href="?page={{i}}">{{i}}</a></li>
+                     {% endif %}
+                     {% endfor %}
+                     {% if coupons.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{coupons.next_page_number}}">Next</a></li>
+     
+                    {% endif %}
+                  </ul>
+                  {% endif %}
+                </nav>
+        </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

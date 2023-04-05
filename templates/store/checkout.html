@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+   <!-- ...:::: Start Checkout Section:::... -->
+   <div class="checkout-section">
+    <div class="container mt-10" >
+          <!-- Start Coupon Start -->
+    <div class="coupon_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="coupon_code left mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <h3>Coupon</h3>
+                        <div class="coupon_inner">
+                            <div class="">
+                                <div class="col-12 col-md-4 ms-3">
+                                 <div class="shoping__continue mb-4"style="margin-left: -15px;">
+                                              <div class="shoping__discount">
+                                                  <h5>Discount Codes</h5>
+                                                  <form id="coupon_form" method="POST">
+                                                    {% csrf_token %}
+                                                      <input type="text" id="coupon_data" placeholder="Enter your coupon code">
+                                                      <button type="submit"  class="btn btn-md btn-golden" style="margin-top: 3%;">APPLY COUPON</button>
+                                                      
+                                                  </form>
+                                              </div>
+                                              <p class="text-danger mt-3" id="output"></p>
+                                          </div>
+                                  
+                                  <p class="text-danger mt-3" id="output"></p>
+                                </div>
+                              </div>
+                            {% if coupons %}
+                            <div class="accordion col-md-8 col-lg-8 col-12 " id="accordionExample">
+                                <h5>Available Coupons:</h5>
+                                {% for item in coupons %}
+                                <div class="accordion-item" style="padding-bottom: 3% !important;">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            <span class="text-dark">{{forloop.counter}}.</span> <b>{{item.coupon.discount}}% Off</b>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p><b>*</b>Applicable only for order price more than <b>₹{{item.coupon.min_value}}\-</b></p>
+                                            <span class="ml-3 " style="margin-bottom: 3% !important;margin-top: 0px !important;">Coupon Code: <b style="color: #682672;">{{item.coupon.code}}</b></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                         
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
+                        <h3>Cart Totals</h3>
+                        <div class="coupon_inner">
+                            <div class="cart_subtotal">
+                                <p>Subtotal</p>
+                                <p class="cart_amount">Rs.{{ total }}</p>
+                            </div>
+                            <div class="cart_subtotal ">
+                                <p>Tax</p>
+                                <p class="cart_amount">Rs.{{ tax }}</p>
+                            </div>
+                            <div class="cart_subtotal" id="coupon_block" style="display: none;">
+                               <p> Discount</p> <p  class="cart_amount">Rs.<b id="coupon_discount"></b></p>
+                                <h1 class="text-danger" style="font-size: 12px;margin-bottom: 0;margin-left: 0;">*Coupon Applied - <b id="coupon_code"></b></h1>
+                            </div>
+
+                            <div class="cart_subtotal">
+                                    <p>Grand total </p>
+                                    <p id='grand_total' class="cart_amount">Rs.{{grand_total}}</p>
+                                    <input type="text" name="coupon" id="coupon_code1" style="display: none;">
+                               
+                            </div>
+         
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- End Coupon Start -->
+        <!-- Start User Details Checkout Form -->
+        <div class="checkout_form" data-aos="fade-up" data-aos-delay="400">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    
+                    <form action="{% url 'place_order' %}" method="POST">
+                        {% csrf_token %}
+                        <h3>Billing Details</h3>
+                        <div class="row">
+
+
+                            <div class="col-lg-12 col-md-12">
+                                <div class="default-form-box">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" required>
+                                </div>
+                            </div>
+                           
+                            <div class="col-lg-6">
+                                <div class="default-form-box">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                  
+                                <div class="default-form-box">
+                                    <label>Phone Number</label>
+                                    <input type="text" name="phone" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="default-form-box">
+                                    <label>Address line 1</label>
+                                    <input type="text" name="address_line_1" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="default-form-box">
+                                    <label>Address line 2</label>
+                                    <input type="text" name="address_line_2" class="form-control" >
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="default-form-box">
+                                    <label>City</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="default-form-box">
+                                    <label>State</label>
+                                    <input type="text" name="state" class="form-control" required >
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4">
+                                <div class="default-form-box">
+                                    <label for="country">Country</label>
+                                    <input type="text" name="country" class="form-control" required>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <!-- <form action="#"> -->
+                        <h3>Your order</h3>
+                        <div class="order_table table-responsive">  
+                            <div class="table_desc">
+                                <div class="table_page table-responsive">
+                                    <table>
+                                        <!-- Start Cart Table Head -->
+                                        <thead>
+                                            <tr style="background-color: #EAEBFF;">
+                                               
+                                                <th class="product_thumb">Image</th>
+                                                <th class="product_name">Product</th>
+                                                <th class="product_quantity">Quantity</th>
+                                                <th class="product_total">Total</th>
+                                            </tr>
+                                        </thead> <!-- End Cart Table Head -->
+                                        <tbody>
+                                            {% for cart_item in cart_items %}
+                                            <!-- Start Cart Single Item-->
+                                            <tr>
+                                                
+                                                <td class="product_thumb"><a href="{{ cart_item.product.get_url }}"><img
+                                                            src="{{ cart_item.product.image.url }}"
+                                                            alt=""></a></td>
+                                                <td class="product_name"><a href="{{ cart_item.product.get_url }}">{{ cart_item.product.product_name }}</a></td>
+                                                
+                                                <td class="product_quantity">
+                                                    <div class="col">
+                                                        <div class="input-group input-spinner">
+                                                           
+                                                            <input value="{{ cart_item.quantity }}" type="text" readonly>
+                                                            
+        
+                                                        </div>
+                                                    </div>
+                                                    
+        
+                                                    </td>
+        
+        
+                                                <td class="product_total">Rs.{{ cart_item.sub_total }}</td>
+                                            </tr> <!-- End Cart Single Item-->
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="cart_submit">
+                                    <button class="btn btn-md btn-golden btn-block" type="submit">Place Order</button>
+                                  </div>
+                                </form>
+                                <div class="cart_submit">
+                                   <a href="{% url 'store'  %}"> <button class="btn btn-md btn-golden btn-block" type="submit">Continue Shopping</button>
+                                  </a> </div>
+                            </div>
+                        </div>
+<!--                    
+                        <div class="payment_method">
+                            <div class="panel-default">
+                                <label class="checkbox-default" for="currencyCod" data-bs-toggle="collapse"
+                                    data-bs-target="#methodCod">
+                                    <input type="checkbox" id="currencyCod">
+                                    <span>Cash on Delivery</span>
+                                </label>
+
+                                <div id="methodCod" class="collapse" data-parent="#methodCod">
+                                    <div class="card-body1">
+                                        <p>Please send a check to Store Name, Store Street, Store Town, Store State
+                                            / County, Store Postcode.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div> -->
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div> <!-- Start User Details Checkout Form -->
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+$('#coupon_form').on('submit', function (e) {
+
+    e.preventDefault();
+    console.log('function calling..... coupon')
+    $.ajax({
+        type: "POST",
+        url: "{% url 'coupons' %}",
+        data: {
+            coupon: $('#coupon_data').val(),
+            grand_total: '{{grand_total}}',
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            dataType: "json",
+
+        },
+
+        success: function (data) {
+            $('#output').html(data.msg) /* response message */
+            $('#grand_total').text('₹' + data.grand_total)
+            if (data.coupon_discount > 0) {
+                $('#coupon_block').show()
+                $('#accordionExample').hide()
+            }
+            $('#coupon_discount').html(data.coupon_discount)
+
+            $('#coupon_code').html(data.coupon_code)
+            $('#coupon_code1').val(data.coupon_code)
+
+
+        },
+
+        failure: function () {
+
+        }
+
+
+    });
+
+
+});  
+</script>
+
+
+{% endblock %}

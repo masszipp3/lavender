@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages%}
+{% for message in messages %}
+<div id="message" class="container">
+  <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert" >
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+      {% if message.level  == DEFAULT_MESSAGE_LEVELS.ERROR %}important: {% endif %}
+      {{ message }}
+
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+ <!-- ...:::: Start Account Dashboard Section:::... -->
+ <div class="account-dashboard" style="margin-top: 60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <!-- Nav tabs -->
+               {% include 'sidebar.html' %}
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9  " style="height: 80%;">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    
+                   
+                        <h4>Order History</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr style="background-color: #EAEBFF;">
+                                        <th>Order No.</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Order Total</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <th scope="row" ><a href="{% url 'order_detail' order.order_number %}" >{{ order.order_number }}</a></th>
+                                        <td>{{ order.name }}</td>
+                                        <td>{{ order.phone }}</span></td>
+                                        <td>Rs.{{ order.order_total }}</td>
+                                        <td>{{ order.created_at }}</a></td>
+                                    </tr>
+                                   {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                   
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Account Dashboard Section:::... -->
+
+
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'adminbase.html' %}
+
+{% block content %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+	<div class="content">
+		<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+			<div>
+				<h1>Order Details</h1>
+				<p class="breadcrumbs"><span><a href="#">Home</a></span>
+					<span><i class="mdi mdi-chevron-right"></i></span>Order Details
+				</p>
+			</div>
+	
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="card card-default">
+		
+					<div class="card-body">
+                        <h5>Name:{{order.name}} </h5>
+                     
+                        <p><strong> Phone</strong>:{{order.phone}} 
+                           <br> <strong>Email</strong> :{{order.email}} </p>
+                        <p><strong>Address</strong> :{{order.address_line_1}} </p>
+                        <p>{{order.country}} </p>
+                        <p>{{order.state}} </p>
+                        <p>{{order.city}} </p>
+                        <p><strong>Amount</strong> :{{order.order_total}} </p>
+                     
+                        <p><strong>Status</strong> :{{order.status}} </p>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+<script>
+    document.getElementById("id_product_name").onkeyup=function(){
+        document.getElementById("id_slug").value=document.getElementById("id_product_name").value.toLowerCase().replaceAll(" ","-");
+      }
+</script>
+{% endblock %}

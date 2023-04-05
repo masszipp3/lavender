@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <!-- ...:::: Start Account Dashboard Section:::... -->
+ <div class="account-dashboard" style="margin-top: 60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <!-- Nav tabs -->
+               {% include 'sidebar.html' %}
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9  " style="height: 80%;">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tab-pane fade show active" id="dashboard">
+                        <h4>Dashboard </h4>
+                        <h5>Logged in as {{user.name}} </h5>
+                        <hr>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Total Orders</h5>
+                                            <h1>{{ orders_count }}</h1>
+                                            <a href="{% url 'my_orders' %}">View Orders</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card" style="text-align: center;">
+                                        <div class="card-body">
+                                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="User Profile" class="avatar" width="50" height="50" >
+                                            <p >{{user.email}}</p>
+                                            <p>{{user.phone}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="orders">
+                        <h4>Orders</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>May 10, 2018</td>
+                                        <td><span class="success">Completed</span></td>
+                                        <td>$25.00 for 1 item </td>
+                                        <td><a href="cart.html" class="view">view</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>May 10, 2018</td>
+                                        <td>Processing</td>
+                                        <td>$17.00 for 1 item </td>
+                                        <td><a href="cart.html" class="view">view</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   
+                    <div class="tab-pane" id="address">
+                        <p></p>
+                        <h5 class="billing-address">Edit Profile</h5>
+                        <a href="#" class="view">Edit</a>
+                        <p><strong>Name</strong></p>
+                       
+                    </div>
+                    <div class="tab-pane fade" id="account-details">
+                        <h3>Change Password </h3>
+                        <div class="login">
+                            <div class="login_form_container">
+                                <div class="account_login_form">
+                                  
+  
+                         
+                                      
+                                        <div class="save_button mt-3">
+                                            <button class="btn btn-md btn-black-default-hover"
+                                                type="submit">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Account Dashboard Section:::... -->
+
+
+
+
+{% endblock %}
